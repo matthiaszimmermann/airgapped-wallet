@@ -1,0 +1,18 @@
+FROM python:3.12-slim AS base
+WORKDIR /app
+
+# Development image - install dependencies via pipenv
+FROM base AS pydeps
+RUN pip install pipenv
+RUN apt-get update && apt-get install -y --no-install-recommends gcc
+COPY Pipfile .
+COPY Pipfile.lock .
+ENV PIPENV_VENV_IN_PROJECT=1
+RUN pipenv install --deploy
+
+# Runtime image - copy the virtual environment, the script and run it
+FROM base AS runtime 
+COPY --from=pydeps /app/.venv .venv
+ENV PATH="/app/.venv/bin:$PATH"
+COPY address_weaver.py .
+CMD [ "python", "address_weaver.py" ]
