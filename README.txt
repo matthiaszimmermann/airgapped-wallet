@@ -16,8 +16,9 @@ docker run -rm forger
 ## Address weaver - get the address from the mnoemonic
 
 ```bash
-python address_weaver.py
-<your mnemonic via stdin><EOF
+cat << EOF | python address_weaver.py
+<your mnemonic>
+EOF
 ```
 
 or 
@@ -36,8 +37,8 @@ docker run -rm address_weaver <your mnemonic>
 or 
 
 ```bash
-docker run -rm address_weaver
-<your mnemonic via stdin><EOF
+docker run -i -rm address_weaver
+<your mnemonic><EOF>
 ```
 
 ## Pipenv
