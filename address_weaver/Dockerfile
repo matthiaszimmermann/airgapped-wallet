@@ -15,4 +15,5 @@ FROM base AS runtime
 COPY --from=pydeps /app/.venv .venv
 ENV PATH="/app/.venv/bin:$PATH"
 COPY address_weaver.py .
-CMD [ "python", "address_weaver.py" ]
+ENTRYPOINT [ "python", "address_weaver.py" ]
+CMD [ ]
