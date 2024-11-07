@@ -13,6 +13,34 @@ docker build -t forger .
 docker run -rm forger
 ```
 
+## Enchanter - get encrypted private key from the mnemonic
+
+```bash
+python enchanter.py <your password>
+``` 
+
+or 
+
+```bash
+cat << EOF | python enchanter.py
+<your password>
+EOF
+```
+
+### Docker
+
+```bash
+docker build -t enchanter .
+docker run -rm enchanter <your password>
+```
+
+or
+
+```bash
+docker run -i -rm enchanter
+<your password><EOF>
+```
+
 ## Address weaver - get the address from the mnoemonic
 
 ```bash

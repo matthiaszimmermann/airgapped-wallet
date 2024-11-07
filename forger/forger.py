@@ -2,8 +2,8 @@ from mnemonic import Mnemonic
 
 def main():
     mnemo = Mnemonic("english")
-    random_seed = mnemo.generate(strength=128)
-    print(random_seed)
+    mnemonic = mnemo.generate(strength=128)
+    print(mnemonic)
 
 
 
