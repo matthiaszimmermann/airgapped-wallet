@@ -14,7 +14,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pip install pipenv",
+	"postCreateCommand": "pip install pipenv && pipenv install",
 
 	// Configure tool-specific properties.
 	// Configure tool-specific properties.
