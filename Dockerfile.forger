@@ -14,6 +14,5 @@ RUN pipenv install --deploy
 FROM base AS runtime 
 COPY --from=pydeps /app/.venv .venv
 ENV PATH="/app/.venv/bin:$PATH"
-COPY address_weaver.py .
-ENTRYPOINT [ "python", "address_weaver.py" ]
-CMD [ ]
+COPY forger/forger.py .
+CMD [ "python", "forger.py" ]

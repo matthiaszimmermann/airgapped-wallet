@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 mnemonic = "*"
+eth-account = "*"
 
 [dev-packages]
 
