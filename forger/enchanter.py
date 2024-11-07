@@ -1,6 +1,7 @@
 from mnemonic import Mnemonic
 from eth_account import Account
 import sys
+import json
 
 # enable unaudited hdwallet features
 Account.enable_unaudited_hdwallet_features()
@@ -15,8 +16,10 @@ def main():
     # seed = mnemo.to_seed(mnemonic)
     # print(seed.hex())
     account = Account.from_mnemonic(mnemonic)
+    account_dict = account.encrypt(password)
     # print(account._private_key.hex())
-    print(account.encrypt(password))
+
+    print(json.dumps(account_dict))
 
 
 

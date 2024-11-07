@@ -55,6 +55,12 @@ or
 python address_weaver.py <your mnemonic>
 ```
 
+### Encrypted private key to address (e.g created via enchanter)
+
+```bash
+python address_weaver/enchanted_address_weaver.py <your encrypted key> <your password>
+```
+
 ### Docker
 
 ```bash
