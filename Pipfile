@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 mnemonic = "*"
 eth-account = "*"
+web3 = "*"
 
 [dev-packages]
 
