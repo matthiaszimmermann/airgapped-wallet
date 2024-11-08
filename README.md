@@ -1,12 +1,59 @@
 # Airgapped wallet
 
-## Forger - safely create a new random wallet 
+## Enchanted vault
+
+The enchanted vault is a tool to manage your encrypted wallet in an airgapped environment. 
+It is a simple cli tool that allows you to create a new wallet, get its address and sign transactions.
+
+### Creating a new wallet
+
+Generate a new random mnemonic
+
+```bash
+python enchanted_vault/run.py --generate
+```
+
+Generate an encrypted wallet with interactive password prompt
+
+```bash
+python enchanted_vault/run.py --initialize 
+```
+
+or with a password as an argument
+
+```bash
+python enchanted_vault/run.py --initialize -p <your password>
+```
+
+### Get the address
+
+```bash
+python enchanted_vault/run.py --address
+```
+
+### Sign a transaction
+
+```bash
+python enchanted_vault/run.py --sign-transaction <transaction_data_json>
+```
+
+or if you want to read the transaction data json from a file 
+
+```bash
+python enchanted_vault/run.py --sign-transaction <transaction_data_json> --input-file <inputfile>
+```
+
+Use `--password` to provide the password as an argument and `--output-file` to write the signed transaction to the given file.
+
+## Other tools
+
+### Forger - safely create a new random wallet 
 
 ```bash
 python forger.py
 ```
 
-### Docker
+#### Docker
 
 ```bash
 docker build -t forger .
@@ -41,7 +88,7 @@ docker run -i -rm enchanter
 <your password><EOF>
 ```
 
-## Address weaver - get the address from the mnoemonic
+### Address weaver - get the address from the mnoemonic
 
 ```bash
 cat << EOF | python address_weaver.py
@@ -55,13 +102,13 @@ or
 python address_weaver.py <your mnemonic>
 ```
 
-### Encrypted private key to address (e.g created via enchanter)
+#### Encrypted private key to address (e.g created via enchanter)
 
 ```bash
 python address_weaver/enchanted_address_weaver.py <your encrypted key> <your password>
 ```
 
-### Docker
+#### Docker
 
 ```bash
 docker build -t address_weaver .
@@ -91,3 +138,5 @@ https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
 https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 
 https://github.com/trezor/python-mnemonic
+https://eth-account.readthedocs.io/en/stable/
+https://web3py.readthedocs.io/en/stable/
