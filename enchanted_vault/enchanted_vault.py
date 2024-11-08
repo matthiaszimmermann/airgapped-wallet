@@ -19,6 +19,7 @@ class EnchantedVault:
         parser.add_argument('-s', '--sign-transaction', help='sign a transaction', action='store_true')
 
         parser.add_argument('-p', '--password', help='vault password', type=str)
+        parser.add_argument('-d', '--dir', help='the base directory for all files', type=str, default='.')
         parser.add_argument('-f', '--file', help='vault file', type=str, default='vault.json')
         parser.add_argument('-if', '--input-file', help='input ', type=str)
         parser.add_argument('-of', '--output-file', help='output ', type=str)
@@ -39,14 +40,16 @@ class EnchantedVault:
             self.sign_transaction()
 
     def check_preconditions_write_vault(self):
-        if os.path.exists(self.args.file):
-            print(f'File exists: {self.args.file}')
+        file = os.path.join(self.args.dir, self.args.file)
+        if os.path.exists(file):
+            print(f'File exists: {file}')
             sys.exit(1)
         self.check_password()
 
     def check_preconditions_read_vault(self):
-        if not os.path.exists(self.args.file):
-            print(f'File not found: {self.args.file}')
+        file = os.path.join(self.args.dir, self.args.file)
+        if not os.path.exists(file):
+            print(f'File not found: {file}')
             sys.exit(1)
         self.check_password()
 
@@ -71,41 +74,49 @@ class EnchantedVault:
         mnemonic = mnemo.generate(strength=128)
         account = Account.from_mnemonic(mnemonic)
         account_dict = account.encrypt(self.args.password)
-        with open(self.args.file, 'w') as f:
+        vault_file = os.path.join(self.args.dir, self.args.file)
+        with open(vault_file, 'w') as f:
             f.write(json.dumps(account_dict))
         
     # read the vault file, decrypt the account, and print the address
     def address(self):
         self.check_preconditions_read_vault()
             
-        with open(self.args.file, 'r') as f:
+        vault_file = os.path.join(self.args.dir, self.args.file)
+        with open(vault_file, 'r') as f:
             account_dict = json.loads(f.read())
         account = Account.from_key(Account.decrypt(account_dict, self.args.password))
         print(account.address)
 
     def sign_transaction(self):
-        if not self.args.transaction_data and not os.path.exists(self.args.input_file):
+        input_file = os.path.join(self.args.dir, self.args.input_file) if self.args.input_file else None
+        if not self.args.transaction_data and not os.path.exists(input_file):
             print('Transaction data required. Use --input-file or provide as argument')
             sys.exit(3)
-        if self.args.output_file and os.path.exists(self.args.output_file):
-            print(f'Output file exists: {self.args.output_file}')
+        output_file = os.path.join(self.args.dir, self.args.output_file) if self.args.output_file else None
+        if output_file and os.path.exists(output_file):
+            print(f'Output file exists: {output_file}')
             sys.exit(4)
 
         self.check_preconditions_read_vault()
 
         # read and decrypt wallet
-        with open(self.args.file, 'r') as f:
+        vault_file = os.path.join(self.args.dir, self.args.file)
+        with open(vault_file, 'r') as f:
             account_dict = json.loads(f.read())
         account = Account.from_key(Account.decrypt(account_dict, self.args.password))
 
         # read transaction
-        with open(self.args.input_file, 'r') as f:
-            transaction = json.loads(f.read())
+        transaction = self.args.transaction_data
+        if not transaction:
+            with open(input_file, 'r') as f:
+                transaction = json.loads(f.read())
         
         # sign and write transaction
         signed_tx = account.sign_transaction(transaction)
-        if self.args.output_file:
-            with open(self.args.output_file, 'w') as f:
+        output_file = os.path.join(self.args.dir, self.args.output_file) if self.args.output_file else None
+        if output_file:
+            with open(output_file, 'w') as f:
                 f.write(signed_tx.raw_transaction.hex())
         else:
             print(signed_tx.raw_transaction.hex())
