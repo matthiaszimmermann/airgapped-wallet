@@ -38,13 +38,13 @@ class EnchantedVault:
         if self.args.sign_transaction:
             self.sign_transaction()
 
-    def check_preconditions_write(self):
+    def check_preconditions_write_vault(self):
         if os.path.exists(self.args.file):
             print(f'File exists: {self.args.file}')
             sys.exit(1)
         self.check_password()
 
-    def check_preconditions_read(self):
+    def check_preconditions_read_vault(self):
         if not os.path.exists(self.args.file):
             print(f'File not found: {self.args.file}')
             sys.exit(1)
@@ -59,13 +59,14 @@ class EnchantedVault:
     
     # generate a new mnemonic and print it to the console
     def generate(self):
-        self.check_preconditions_write()
         mnemo = Mnemonic("english")
         mnemonic = mnemo.generate(strength=128)
         print(mnemonic)
     
     # generate a new random mnemonic, encrypt it with the password, and store it in the vault file
     def initialize(self):
+        self.check_preconditions_write_vault()
+        
         mnemo = Mnemonic("english")
         mnemonic = mnemo.generate(strength=128)
         account = Account.from_mnemonic(mnemonic)
@@ -75,7 +76,7 @@ class EnchantedVault:
         
     # read the vault file, decrypt the account, and print the address
     def address(self):
-        self.check_preconditions_read()
+        self.check_preconditions_read_vault()
             
         with open(self.args.file, 'r') as f:
             account_dict = json.loads(f.read())
@@ -90,7 +91,7 @@ class EnchantedVault:
             print(f'Output file exists: {self.args.output_file}')
             sys.exit(4)
 
-        self.check_preconditions_read()
+        self.check_preconditions_read_vault()
 
         # read and decrypt wallet
         with open(self.args.file, 'r') as f:
