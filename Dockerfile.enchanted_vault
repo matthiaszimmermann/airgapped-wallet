@@ -14,6 +14,8 @@ RUN pipenv install --deploy
 FROM base AS runtime 
 COPY --from=pydeps /app/.venv .venv
 ENV PATH="/app/.venv/bin:$PATH"
+VOLUME /data
 COPY enchanted_vault/*.py .
-ENTRYPOINT [ "python", "run.py" ]
-CMD [ "--generate" ]
+COPY enchanted_vault/run.sh .
+ENTRYPOINT [ "./run.sh", "-d", "/data" ]
+CMD [ ]
