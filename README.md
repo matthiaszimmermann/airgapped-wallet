@@ -47,19 +47,21 @@ Use `--password` to provide the password as an argument and `--output-file` to w
 
 ### Use docker image
 
-All the commands can be run using the docker image as well.
+All the commands can also be run using the container image (`ghcr.io/doerfli/airgapped-wallet/enchanted_vault`).
 Instead of `python enchanted_vault/run.py` use 
 
 ```bash
-docker run -it <enchanted_vault_image> <command>
+docker run -it ghcr.io/doerfli/airgapped-wallet/enchanted_vault:main <command>
 ```
 
 The other arguments are the same as when running the script directly.
 To provide an existing wallet file (or have access to a newly created one), mount the file to the container
 
 ```bash
-docker run -it -v <path to data directory>:/data <enchanted_vault_image> <command>
+docker run -it -v <path to data directory>:/data ghcr.io/doerfli/airgapped-wallet/enchanted_vault:main <command>
 ```
+
+Don't forget to log into the ghcr.io registry before pulling the image.
 
 ## Other tools
 
