@@ -16,6 +16,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+    strategy:
+      matrix:
+        arch: ['linux/amd64', 'linux/arm64']
     steps:
       - uses: actions/checkout@v4
       - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u doerfli --password-stdin
@@ -23,5 +26,5 @@ jobs:
       - name: build and push image
         run: |
           docker buildx create --use
-          docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile.enchanted_vault -t ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }} --push .
+          docker buildx build --platform ${{ matrix.arch }} -f Dockerfile.enchanted_vault -t ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }} --push .
           docker push ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }}
