@@ -45,6 +45,22 @@ python enchanted_vault/run.py --sign-transaction <transaction_data_json> --input
 
 Use `--password` to provide the password as an argument and `--output-file` to write the signed transaction to the given file.
 
+### Use docker image
+
+All the commands can be run using the docker image as well.
+Instead of `python enchanted_vault/run.py` use 
+
+```bash
+docker run -it <enchanted_vault_image> <command>
+```
+
+The other arguments are the same as when running the script directly.
+To provide an existing wallet file (or have access to a newly created one), mount the file to the container
+
+```bash
+docker run -it -v <path to data directory>:/data <enchanted_vault_image> <command>
+```
+
 ## Other tools
 
 ### Forger - safely create a new random wallet 
