@@ -22,6 +22,6 @@ jobs:
       - uses: rlespinasse/github-slug-action@v2.x
       - name: build and push image
         run: |
-        docker buildx create --use
-        docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile.enchanted_vault -t ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }} --push .
-        docker push ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }}
+          docker buildx create --use
+          docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile.enchanted_vault -t ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }} --push .
+          docker push ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }}
