@@ -23,4 +23,4 @@ jobs:
       - run: |
         docker buildx create --use
         docker buildx build --platform linux/amd64,linux/arm64 -f Dockerfile.enchanted_vault -t ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }} --push .
-      - run: docker push ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }}
+        docker push ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }}
