@@ -1,0 +1,21 @@
+name: Container image build
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+    - '*'
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  container:
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u doerfli --password-stdin
+      - uses: rlespinasse/github-slug-action@v2.x
+      - run: docker build -f Dockerfile.enchanged_vault -t ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }} .
+      - run: docker push ghcr.io/doerfli/airgapped-wallet/enchanted_vault:${{ env.GITHUB_REF_SLUG }}
