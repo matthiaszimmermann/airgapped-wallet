@@ -4,7 +4,7 @@ WORKDIR /app
 # Development image - install dependencies via pipenv
 FROM base AS pydeps
 RUN pip install pipenv
-RUN apt-get update && apt-get install -y --no-install-recommends gcc
+RUN apt-get update && apt-get install -y --no-install-recommends gcc libc6-dev
 COPY Pipfile .
 COPY Pipfile.lock .
 ENV PIPENV_VENV_IN_PROJECT=1
