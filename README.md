@@ -40,7 +40,7 @@ python enchanted_vault/run.py --sign-transaction <transaction_data_json>
 or if you want to read the transaction data json from a file 
 
 ```bash
-python enchanted_vault/run.py --sign-transaction <transaction_data_json> --input-file <inputfile>
+python enchanted_vault/run.py --sign-transaction --input-file <inputfile>
 ```
 
 Use `--password` to provide the password as an argument and `--output-file` to write the signed transaction to the given file.
