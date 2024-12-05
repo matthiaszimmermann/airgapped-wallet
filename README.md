@@ -1,5 +1,41 @@
 # Airgapped wallet
 
+## Wallet and WalletFile
+
+```bash
+python
+```
+
+```python
+from web3.wallet import Wallet
+from util.wallet_file import WalletFile
+w = Wallet(pass_phrase="my secret")
+wf = WalletFile(w)
+wf.save()
+```
+
+The last step `wf.save()` creates the encrypted vault file `<address>.json` and `<address>.html` representing the paper wallet as a self contained HTML file. 
+
+The wallet `w` provides access to the properties listed below
+
+```python
+w.address # the account address
+w.mnemonic # the mnemonic that produces the account
+w.path # the HD wallet path used for the address creation
+w.account # the account object to sign transactions etc
+w.pass_phrase # the pass phrase to encrypt/decrypt the vault
+w.vault # the encrypted vault in JSON format
+```
+
+## Setup
+
+1. Clone repository
+1. CD into repository
+1. Open VSCode
+1. Open repo in devcontainer
+1. Open terminal in VSCode
+1. Run `pipenv shell`
+
 ## Enchanted vault
 
 The enchanted vault is a tool to manage your encrypted wallet in an airgapped environment. 
